@@ -37,6 +37,18 @@ function App() {
     }
   ])
   const [search, setSearch] = useState("")
+  const [searchResult, setSearchResult] = useState("")
+  const navigate = useNavigate() 
+  
+  useEffect(() => {
+    const filteredPosts = search ? posts.filter((post) =>(
+      ((post.title.toLowerCase()).includes(search.toLocaleLowerCase())) 
+      || ((post.body.toLowerCase()).includes(search.toLocaleLowerCase()))
+    )) : posts
+
+    setSearchResult(filteredPosts.reverse())
+  }, [search, posts])
+  
 
   return (
     <>
@@ -52,12 +64,23 @@ function App() {
           <Route 
             index 
             element={<Home 
-              posts={posts}
+              posts={searchResult}
             />}
           />
           <Route path='post'>
-            <Route index element={ <NewPost />} />
-            <Route path=':id' element={ <PostPage />} />
+            <Route index element={<NewPost 
+              posts={posts} 
+              navigate={navigate}
+              setPosts={setPosts} 
+            />} />
+            <Route 
+              path=':id' 
+              element={<PostPage
+                posts={posts}
+                setPosts={setPosts}
+                navigate={navigate}
+              />} 
+            />
           </Route> 
           <Route path='about' element={ <About />} />
           <Route path='*' element={ <Missing />} />
