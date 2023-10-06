@@ -1,7 +1,9 @@
 import { useParams, Link } from "react-router-dom"
 import api from '../../api/posts'
 
-const PostPage = ({posts, setPosts, navigate}) => {
+const PostPage = ({posts, setPosts, navigate
+  // , setIsPostEdited}) => {
+  }) => {
   const {id} = useParams()
   const post = posts.find((post) => (post.id).toString() === id)
 
@@ -10,6 +12,7 @@ const PostPage = ({posts, setPosts, navigate}) => {
       await api.delete(`/posts/${id}`)
       const updatedPostsList = posts.filter((post)=>(post.id !== id))
       setPosts(updatedPostsList)
+      // setIsPostEdited(true)
       navigate("/")
     }
     catch(err){

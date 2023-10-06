@@ -3,7 +3,9 @@ import { useParams, Link } from "react-router-dom";
 import api from '../../api/posts'
 import { format } from 'date-fns';
 
-const EditPost = ({posts, setPosts, navigate}) => {
+const EditPost = ({posts, setPosts, navigate, 
+    // setIsPostEdited}) => {
+    }) => {
     const [editTitle, setEditTitle] = useState("");
     const [editBody, setEditBody] = useState("");
 
@@ -14,7 +16,7 @@ const EditPost = ({posts, setPosts, navigate}) => {
         setEditTitle(post.title)
         setEditBody(post.body)
 
-    }, [post, setEditTitle, setEditBody])
+    }, [post])
 
     const handleEdit = async (id) => {
         const datetime = format(new Date(), "MMMM dd, yyyy pp");
@@ -27,6 +29,7 @@ const EditPost = ({posts, setPosts, navigate}) => {
         );
         setEditTitle("");
         setEditBody("");
+        // setIsPostEdited(true)
         navigate("/");
         } catch (err) {
         if (err.response) {
@@ -41,7 +44,7 @@ const EditPost = ({posts, setPosts, navigate}) => {
 
     return(
         <main className="NewPost">
-            {editTitle ? (
+            {post.id ? (
                 <>
                     <h2>Edit Post</h2>
                     <form className="newPostForm" onSubmit={e=>e.preventDefault()}>

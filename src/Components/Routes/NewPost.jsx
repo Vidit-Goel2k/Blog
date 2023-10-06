@@ -2,14 +2,16 @@ import { useState } from "react"
 import { format } from "date-fns"
 import api from '../../api/posts'
 
-const NewPost = ({posts, setPosts, navigate}) => {
+const NewPost = ({posts, setPosts, navigate, 
+  // setIsPostEdited}) => {
+  }) => {
   const [postTitle, setPostTitle] = useState('')
   const [postBody, setPostBody] = useState('')
   
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
-    const id = posts.length ? posts[posts.length-1].id + 1 : 1
+    const id = posts.length ? posts[0].id + 1 : 1
+    // const id = posts.length ? posts[posts.length-1].id + 1 : 1
     const datetime = format(new Date(), "MMMM dd, yyyy pp")
     
     const newPost = {id, title:postTitle, datetime, body:postBody}
@@ -20,6 +22,7 @@ const NewPost = ({posts, setPosts, navigate}) => {
       setPosts(allPosts)
       setPostTitle('')
       setPostBody('')
+      // setIsPostEdited(true)
       navigate('/')
     }
     catch(err){
