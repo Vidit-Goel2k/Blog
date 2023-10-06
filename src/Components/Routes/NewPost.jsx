@@ -5,7 +5,7 @@ import api from '../../api/posts'
 const NewPost = ({posts, setPosts, navigate}) => {
   const [postTitle, setPostTitle] = useState('')
   const [postBody, setPostBody] = useState('')
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault()
     
@@ -13,7 +13,7 @@ const NewPost = ({posts, setPosts, navigate}) => {
     const datetime = format(new Date(), "MMMM dd, yyyy pp")
     
     const newPost = {id, title:postTitle, datetime, body:postBody}
-    
+
     try{
       const response = await api.post('/posts', newPost)
       const allPosts = [...posts, response.data]
