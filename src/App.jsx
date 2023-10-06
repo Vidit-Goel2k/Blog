@@ -21,7 +21,7 @@ function App() {
     const fetchPosts = async() => {
       try{
         const response = await api.get('/posts')
-        setPosts(response.data)
+        setPosts(response.data.reverse())
       }
       catch(err){
         if(err.response){
@@ -44,7 +44,7 @@ function App() {
       || ((post.body.toLowerCase()).includes(search.toLocaleLowerCase()))
     )) : posts
 
-    setSearchResult(filteredPosts.reverse())
+    setSearchResult(filteredPosts)
   }, [search, posts])
   
 

@@ -1,13 +1,28 @@
 import { useParams, Link } from "react-router-dom"
+import api from '../../api/posts'
 
 const PostPage = ({posts, setPosts, navigate}) => {
   const {id} = useParams()
   const post = posts.find((post) => (post.id).toString() === id)
 
-  const handleDelete = (id) => {
-    const updatedPostsList = posts.filter((post)=>(post.id !== id))
-    setPosts(updatedPostsList)
-    navigate("/")
+  const handleDelete = async (id) => {
+    try{
+      await api.delete(`/posts/${id}`)
+      const updatedPostsList = posts.filter((post)=>(post.id !== id))
+      setPosts(updatedPostsList)
+      navigate("/")
+    }
+    catch(err){
+      if(err.response){
+        console.log(err.response.data)
+        console.log(err.response.status)
+        console.log(err.response.headers)
+      }
+      else{
+        console.log(`Error: ${err.message}`)
+      }
+    }
+    
   }
 
   return (
