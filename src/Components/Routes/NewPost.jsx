@@ -9,8 +9,8 @@ const NewPost = ({posts, setPosts, navigate}) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     // HAD TO DO THIS BECAUSE OF UNEXPECTED BEHAVIOUR IN filteredPosts FUNCTION 
-    const id = posts.length ? posts[0].id + 1 : 1  
-    // const id = posts.length ? posts[posts.length-1].id + 1 : 1
+    // const id = posts.length ? posts[0].id + 1 : 1  
+    const id = posts.length ? posts[posts.length-1].id + 1 : 1
     const datetime = format(new Date(), "MMMM dd, yyyy pp")
 
     const newPost = {id, title:postTitle, datetime, body:postBody}

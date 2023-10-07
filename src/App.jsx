@@ -39,10 +39,10 @@ function App() {
     )
     // ******* Very Very important {I don't know why I had to do this but because of this my posts state got a reversed array}
     // OLD WITH UNEXPECTED APPLICATION BEHAVIOUR: 
-    setSearchResult(filteredPosts.reverse())
+    // setSearchResult(filteredPosts.reverse())
     // NEW WITHOUT ERROR AND BEHAVIOUR AS EXPECTED
-    // const orderedFilterPosts = [...filteredPosts].reverse()
-    // setSearchResult(orderedFilterPosts)
+    const orderedFilterPosts = [...filteredPosts].reverse()
+    setSearchResult(orderedFilterPosts)
   }, [posts, search])
 
   return (
