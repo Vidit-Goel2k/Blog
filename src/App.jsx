@@ -11,6 +11,9 @@ import Missing from './Components/Routes/Missing';
 import EditPost from './Components/Routes/EditPost';
 
 import api from './api/posts'
+import useWindowSize from './hooks/useWindowSize';
+import useAxiosFetch from './hooks/useAxiosFetch';
+
 
 function App() {
   const [posts, setPosts] = useState([])
@@ -18,6 +21,11 @@ function App() {
   const [searchResult, setSearchResult] = useState("")
   // const [isPostEdited, setIsPostEdited] = useState(false)
   const navigate = useNavigate() 
+  const {width} = useWindowSize()
+
+  // const {data, fetchError, isLoading} = useAxiosFetch('http://localhost:3500/posts')
+
+
 
   // fetch posts from json-server at load time
   useEffect(() => {
@@ -60,6 +68,7 @@ function App() {
             title="Blog"
             search={search}
             setSearch={setSearch}
+            width={width}
           />} 
         >
           <Route 
