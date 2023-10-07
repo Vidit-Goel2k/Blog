@@ -3,9 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import api from '../../api/posts'
 import { format } from 'date-fns';
 
-const EditPost = ({posts, setPosts, navigate, 
-    // setIsPostEdited}) => {
-    }) => {
+const EditPost = ({posts, setPosts, navigate}) => {
     const [editTitle, setEditTitle] = useState("");
     const [editBody, setEditBody] = useState("");
 
@@ -23,22 +21,21 @@ const EditPost = ({posts, setPosts, navigate,
         const updatedPost = { id, title: editTitle, datetime, body: editBody };
 
         try {
-        const response = await api.put(`/posts/${id}`, updatedPost);
-        setPosts(
-            posts.map((post) => (post.id === id ? { ...response.data } : post))
-        );
-        setEditTitle("");
-        setEditBody("");
-        // setIsPostEdited(true)
-        navigate("/");
+            const response = await api.put(`/posts/${id}`, updatedPost);
+            setPosts(
+                posts.map((post) => (post.id === id ? { ...response.data } : post))
+            );
+            setEditTitle("");
+            setEditBody("");
+            navigate("/");
         } catch (err) {
-        if (err.response) {
-            console.log(err.response.data);
-            console.log(err.response.status);
-            console.log(err.response.headers);
-        } else {
-            console.log(`Error: ${err.message}`);
-        }
+            if (err.response) {
+                console.log(err.response.data);
+                console.log(err.response.status);
+                console.log(err.response.headers);
+            } else {
+                console.log(`Error: ${err.message}`);
+            }
         }
     };
 

@@ -10,7 +10,6 @@ import About from './Components/Routes/About';
 import Missing from './Components/Routes/Missing';
 import EditPost from './Components/Routes/EditPost';
 
-import api from './api/posts'
 import useWindowSize from './hooks/useWindowSize';
 import useAxiosFetch from './hooks/useAxiosFetch';
 
@@ -19,45 +18,32 @@ function App() {
   const [posts, setPosts] = useState([])
   const [search, setSearch] = useState("")
   const [searchResult, setSearchResult] = useState("")
-  // const [isPostEdited, setIsPostEdited] = useState(false)
   const navigate = useNavigate() 
   const {width} = useWindowSize()
 
-  // const {data, fetchError, isLoading} = useAxiosFetch('http://localhost:3500/posts')
-
-
-
   // fetch posts from json-server at load time
-  useEffect(() => {
-    const fetchPosts = async() => {
-      try{
-        const response = await api.get('/posts')
-        setPosts(response.data)
-      }
-      catch(err){
-        if(err.response){
-          console.log(err.response.data)
-          console.log(err.response.status)
-          console.log(err.response.headers)
-        }
-        else{
-          console.log(`Error: ${err.message}`)
-        }
-      }
-    }
-
-    fetchPosts()
-  }, [setSearchResult])
+  const {data, fetchError, isLoading} = useAxiosFetch('http://localhost:3500/posts')
+  useEffect(()=>{
+    setPosts(data)
+  },[data])
 
   // filter posts based on search 
   useEffect(() => {
-    const filteredPosts = search ? posts.filter((post) =>(
-      ((post.title.toLowerCase()).includes(search.toLocaleLowerCase())) 
-      || ((post.body.toLowerCase()).includes(search.toLocaleLowerCase()))
-    )) : posts
-
+    const filteredPosts = search ? (  
+      posts.filter((post) =>(
+        ((post.title.toLowerCase()).includes(search.toLocaleLowerCase())) 
+        || ((post.body.toLowerCase()).includes(search.toLocaleLowerCase()))
+      )) 
+    ) : (
+      posts
+    )
+    // ******* Very Very important {I don't know why I had to do this but because of this my posts state got a reversed array}
+    // OLD WITH UNEXPECTED APPLICATION BEHAVIOUR: 
     setSearchResult(filteredPosts.reverse())
-  }, [search, posts])
+    // NEW WITHOUT ERROR AND BEHAVIOUR AS EXPECTED
+    // const orderedFilterPosts = [...filteredPosts].reverse()
+    // setSearchResult(orderedFilterPosts)
+  }, [posts, search])
 
   return (
     <>
@@ -69,12 +55,14 @@ function App() {
             search={search}
             setSearch={setSearch}
             width={width}
-          />} 
-        >
+            />} 
+            >
           <Route 
             index 
             element={<Home 
               posts={searchResult}
+              fetchError={fetchError}
+              isLoading={isLoading}
             />}
           />
           <Route path='post'>
@@ -84,7 +72,6 @@ function App() {
                 posts={posts} 
                 navigate={navigate}
                 setPosts={setPosts} 
-                // setIsPostEdited={setIsPostEdited}
               />} 
             />
             <Route 
@@ -93,7 +80,6 @@ function App() {
                 posts={posts}
                 setPosts={setPosts}
                 navigate={navigate}
-                // setIsPostEdited={setIsPostEdited}
               />} 
             />
           </Route> 
@@ -103,7 +89,6 @@ function App() {
               posts={posts} 
               setPosts={setPosts} 
               navigate={navigate} 
-              // setIsPostEdited={setIsPostEdited} 
             /> } 
           />
           <Route path='about' element={ <About />} />

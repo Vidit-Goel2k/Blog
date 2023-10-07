@@ -7,7 +7,10 @@ import { Outlet } from "react-router-dom"
 const Layout = ({title, search, setSearch, width}) => {
   return (
     <div className="App" >
-        <Header title={title} width={width}/>
+        <Header 
+          title={title} 
+          width={width} 
+        />
         <Nav search={search} setSearch={setSearch} />
         <Outlet />
         <Footer />

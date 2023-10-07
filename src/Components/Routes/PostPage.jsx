@@ -12,7 +12,6 @@ const PostPage = ({posts, setPosts, navigate
       await api.delete(`/posts/${id}`)
       const updatedPostsList = posts.filter((post)=>(post.id !== id))
       setPosts(updatedPostsList)
-      // setIsPostEdited(true)
       navigate("/")
     }
     catch(err){
