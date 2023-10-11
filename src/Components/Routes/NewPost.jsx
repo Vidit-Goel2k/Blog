@@ -1,8 +1,12 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { format } from "date-fns"
 import api from '../../api/posts'
+import DataContext from "../../context/DataContext"
 
-const NewPost = ({posts, setPosts, navigate}) => {
+const NewPost = () => {
+
+  const {posts, setPosts, navigate} = useContext(DataContext)
+
   const [postTitle, setPostTitle] = useState('')
   const [postBody, setPostBody] = useState('')
   
